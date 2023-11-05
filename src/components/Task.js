@@ -1,13 +1,14 @@
 import React from "react";
+import Task from "./Task";
 
-function Task() {
+function TaskList(props) {
   return (
-    <div className="task">
-      <div className="label">CATEGORY HERE</div>
-      <div className="text">TEXT HERE</div>
-      <button className="delete">X</button>
+    <div className="tasks">
+      {props.tasks.map((task) => (
+        <Task key={task.id} task={task} />
+      ))}
     </div>
   );
 }
 
-export default Task;
+export default TaskList;

@@ -1,19 +1,37 @@
-import React from "react";
+// App.js
+import React, { useState } from "react";
+import TaskList from "./TaskList";
 import CategoryFilter from "./CategoryFilter";
 import NewTaskForm from "./NewTaskForm";
-import TaskList from "./TaskList";
-
-import { CATEGORIES, TASKS } from "../data";
-console.log("Here's the data you're working with");
-console.log({ CATEGORIES, TASKS });
 
 function App() {
+  const [tasks, setTasks] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const categories = ["All", "Work", "Home", "Personal"];
+
+  const addTask = (task) => {
+    setTasks([...tasks, task]);
+  };
+
+  const deleteTask = (taskId) => {
+    const updatedTasks = tasks.filter((task) => task.id !== taskId);
+    setTasks(updatedTasks);
+  };
+
+  const changeCategory = (category) => {
+    setSelectedCategory(category);
+  };
+
   return (
     <div className="App">
-      <h2>My tasks</h2>
-      <CategoryFilter />
-      <NewTaskForm />
-      <TaskList />
+      <h1>Task List</h1>
+      <CategoryFilter
+        categories={categories}
+        selectedCategory={selectedCategory}
+        onCategoryChange={changeCategory}
+      />
+      <NewTaskForm categories={categories} onTaskFormSubmit={addTask} />
+      <TaskList tasks={tasks} selectedCategory={selectedCategory} onDelete={deleteTask} />
     </div>
   );
 }
